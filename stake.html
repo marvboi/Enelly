@@ -1,540 +1,1210 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-[var(--privy-color-accent-light)] text-[var(--privy-color-foreground-accent)]">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/enelly_logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/enelly_logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/enelly_logo.png">
-    <link rel="manifest" href="./assets/site.webmanifest">
-    <meta name="theme-color" content="#61dfff">
-
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="Enelly NFT - Staking">
-    <meta property="og:description" content="Stake your Enelly NFTs and VIP Pass">
-    <meta property="og:image" content="./assets/enelly_logo.png">
-    <meta property="og:url" content="https://enellynft.xyz/stake.html">
-
-    <title>Enelly - Staking</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://static.drip.trade/collections/enelly_pfp.png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>Enelly Staking Legends - HyperEVM</title>
     <style>
         :root {
-            --privy-color-foreground-accent: hsl(0, 0%, 100%);
-            --privy-color-accent: hsl(172, 47%, 36%);
-            --privy-color-accent-light: hsl(172, 47%, 51%);
-            --privy-color-accent-dark: hsl(172, 47%, 30%);
-            --privy-color-success: hsl(147, 43%, 52%);
-            --privy-color-success-dark: hsl(147, 43%, 36%);
-            --privy-color-success-light: hsl(147, 43%, 92%);
-            --privy-color-error: hsl(7, 80%, 62%);
-            --privy-color-error-light: hsl(7, 80%, 92%);
-            --privy-color-warn: hsl(36, 100%, 65%);
-            --privy-color-warn-light: hsl(36, 100%, 95%);
-            font-family: 'Inter', sans-serif;
+            --privy-color-accent: #00ffcc;
+            --privy-color-success-dark: #00cc99;
+            --privy-color-success-light: #66ffe6;
+            --privy-color-foreground-accent: #e0e0e0;
+            --bg-color: #2dd4bf;
+            --sec-color: #f1f1f1;
+            --dark-white: #e5e5e5;
+            --darker-indigo: #4b0082;
+            --text-color: #000000;
         }
-
+        *, ::after, ::before {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb;
+        }
         body {
-            background: linear-gradient(135deg, var(--privy-color-accent-light) 0%, var(--privy-color-accent) 100%);
-            position: relative;
-            overflow-x: hidden;
-            min-height: 100vh;
+            margin: 0;
+            line-height: inherit;
+            font-family: 'Orbitron', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: var(--bg-color);
+            color: #e0e0e0;
         }
-
-        /* Animated gradient overlay */
-        body::before {
-            content: '';
+        .container {
+            max-width: 56rem;
+            margin-left: auto;
+            margin-right: auto;
+            background: var(--sec-color);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: filter 0.3s ease;
+        }
+        .container.loading {
+            filter: blur(5px);
+        }
+        header.fixed {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-            animation: pulse 8s ease-in-out infinite;
+            right: 0;
+            z-index: 50;
+            padding: 1rem 1rem 0;
         }
-
-        /* Tech grid pattern */
-        body::after {
-            content: '';
+        header.fixed .inner {
+            max-width: 85rem;
+            margin: 0 auto;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f1f1f1;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        nav {
+            display: flex;
+            background-color: #f1f1f1;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--privy-color-success-dark);
+            font-weight: bold;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .logo:hover {
+            opacity: 0.7;
+        }
+        .logo img {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            border: 2px solid var(--privy-color-success-dark);
+        }
+        .nav-links {
+            display: none;
+            background-color: #f1f1f1;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .nav-links a {
+            color: var(--privy-color-success-dark);
+            font-size: 0.875rem;
+            font-weight: 400;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+        .nav-links a[aria-current="page"] {
+            font-weight: 700;
+        }
+        .mobile-menu-btn {
+            display: block;
+            color: var(--privy-color-success-dark);
+            transition: opacity 0.3s ease;
+        }
+        .mobile-menu-btn:hover {
+            opacity: 0.7;
+        }
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+        .mobile-menu {
+            display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%),
-                linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.03) 75%),
-                linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.03) 75%);
-            background-size: 30px 30px;
-            background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
-            opacity: 0.5;
-            pointer-events: none;
-            z-index: 0;
-            animation: gridMove 30s linear infinite;
+            inset: 0;
+            background: var(--privy-color-success-light);
+            z-index: 50;
+            flex-direction: column;
+            padding: 1.5rem;
         }
-
-        /* Glowing orbs */
-        .floating-element {
-            position: fixed;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            animation: float 20s infinite ease-in-out;
-            filter: blur(20px);
+        .mobile-menu.active {
+            display: flex;
         }
-
-        .floating-element:nth-child(1) {
-            width: 400px;
-            height: 400px;
-            top: -200px;
-            right: -200px;
-            animation-delay: 0s;
-        }
-
-        .floating-element:nth-child(2) {
-            width: 300px;
-            height: 300px;
-            bottom: -150px;
-            left: -150px;
-            animation-delay: -5s;
-        }
-
-        .floating-element:nth-child(3) {
-            width: 250px;
-            height: 250px;
-            top: 50%;
-            left: 50%;
-            animation-delay: -10s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            25% {
-                transform: translate(20px, 20px) rotate(5deg);
-            }
-            50% {
-                transform: translate(0, 40px) rotate(0deg);
-            }
-            75% {
-                transform: translate(-20px, 20px) rotate(-5deg);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 0.8;
-            }
-        }
-
-        @keyframes gridMove {
-            0% {
-                background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
-            }
-            100% {
-                background-position: 30px 0, 30px 15px, 45px -15px, 15px 0px;
-            }
-        }
-
-        /* Glowing button animation */
-        .submit-glow {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, var(--privy-color-accent) 0%, var(--privy-color-accent-light) 100%);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-        }
-
-        .submit-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 4px 12px rgba(0, 0, 0, 0.1),
-                0 0 20px rgba(97, 223, 255, 0.3);
-        }
-
-        .submit-glow::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg,
-                    transparent,
-                    var(--privy-color-accent-light),
-                    transparent);
-            transform: rotate(45deg);
-            animation: glow 3s linear infinite;
-        }
-
-        @keyframes glow {
-            0% {
-                transform: translateX(-100%) rotate(45deg);
-            }
-            100% {
-                transform: translateX(100%) rotate(45deg);
-            }
-        }
-
-        .mobile-menu-enter {
-            transform: translateY(100%);
-            opacity: 0;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-        }
-
-        .mobile-menu-enter-active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .mobile-menu-exit {
-            transform: translateY(0);
-            opacity: 1;
-            transition: transform 0.3s ease-in, opacity 0.3s ease-in;
-        }
-
-        .mobile-menu-exit-active {
-            transform: translateY(100%);
-            opacity: 0;
-        }
-
-        .stake-card {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        .mobile-menu .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 2rem;
         }
-
-        .stake-button {
-            background: linear-gradient(135deg, var(--privy-color-accent) 0%, var(--privy-color-accent-light) 100%);
+        .mobile-menu .links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .spacer {
+            height: 6rem;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        .profile img {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            border: 2px solid var(--privy-color-accent);
+        }
+        .profile span {
+            font-weight: 600;
+            color: var(--privy-color-accent);
+        }
+        .profile small {
+            font-size: 0.75rem;
+            color: #d1d5db;
+        }
+        .profile .nft-count {
+            font-size: 0.75rem;
+            color: var(--privy-color-success-dark);
+            margin-left: 0.25rem;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .submit-glow {
+            background: var(--privy-color-accent);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
-
-        .stake-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 
-                0 4px 12px rgba(0, 0, 0, 0.1),
-                0 0 20px rgba(97, 223, 255, 0.3);
-        }
-
-        .stake-button::before {
+        .submit-glow::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .submit-glow:hover:not(:disabled)::after {
+            width: 200%;
+            height: 200%;
+        }
+        .submit-glow:disabled {
+        display: none; /* Replaces background: #9ca3af and cursor: not-allowed */
+        }
+        .hidden {
+            display: none;
+        }
+        #status, #history, #leaderboard {
+            background: var(--dark-white);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            text-align: center; /* Centers text */
+            line-height: 1.25rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        #status .nft-item, #leaderboard .leader-item {
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            gap: 0.5rem;
+            margin: 0.25rem 0;
+        }
+        #status img, #history img, #leaderboard img {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 0.25rem;
+        }
+        #history a {
+            color: var(--privy-color-accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        #history a:hover {
+            color: var(--privy-color-success-dark);
+        }
+        #leaderboard .leader-item {
+            font-size: 1.25rem;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: 0.5s;
+            justify-content: space-between;
+            transition: all 0.3s ease;
         }
+        #leaderboard .leader-item:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: scale(1.02);
+            text-shadow: 0 0 5px var(--privy-color-accent);
+        }
+        #leaderboard .leader-item span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        #leaderboard .leader-item .points {
+            font-weight: 700;
+            color: var(--privy-color-accent);
+        }
+        #leaderboard .leader-item .nfts {
+            color: #666;
+            font-style: italic;
+        }
+        #points {
+            color: var(--privy-color-accent);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        #timer {
+            color: #ffcc00;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        .stake-card {
+            display: none;
+            background: var(--sec-color);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .stake-card.active {
+            display: block;
+        }
+        .stake-card .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stake-card .header img {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 9999px;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .stake-card .header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+        .stake-card .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        .stake-card .grid div {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgb(0 0 0 / 0.1);
+            text-align: center;
+        }
+        .stake-card .grid .label {
+            color: var(--privy-color-accent);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        .stake-card .grid .value {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .stake-card .grid .subtext {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        footer {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 3rem;
+            padding: 2rem 0;
+            color: var(--privy-color-success-light);
+        }
+        footer .socials {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        footer a {
+            color: var(--privy-color-success-light);
+        }
+        .spinner {
+            border: 4px solid var(--privy-color-accent);
+            border-top: 4px solid var(--bg-color);
+            border-radius: 50%;
+            width: 1rem;
+            height: 1rem;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: var(--sec-color);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            width: 100%;
+            max-width: 42rem;
+            text-align: center;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-content h2 {
+            color: var(--privy-color-accent);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            background: var(--dark-white);
+            border: 1px solid var(--privy-color-accent);
+            color: var(--text-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        .modal-content .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .modal-content .nft-option {
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 0.5rem;
+            transition: border-color 0.3s ease;
+        }
+        .modal-content .nft-option:hover {
+            border-color: var(--privy-color-success-dark);
+        }
+        .modal-content .nft-option.selected {
+            border-color: var(--privy-color-accent);
+        }
+        .modal-content .nft-option img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.25rem;
+        }
+        .modal-content .submit-glow {
+            width: 100%;
+        }
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        .loader-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid var(--privy-color-accent);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        .socials img {
+    transition: transform 0.3s ease-in-out;
+}
 
-        .stake-button:hover::before {
-            left: 100%;
-        }
+.socials img:hover {
+    transform: scale(1.2);
+}
+/* History Toggle */
+.history-toggle {
+    background: var(--dark-white);
+    color: var(--privy-color-accent);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.history-toggle:hover {
+    background: var(--privy-color-accent);
+    color: white;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.history-toggle.active .toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Collapsible History */
+#history {
+    background: var(--dark-white);
+    color: var(--text-color);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    max-height: 200px;
+    overflow-y: auto;
+    text-align: center;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+#history.collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding: 0 1rem;
+    overflow: hidden;
+}
+
+/* Adjust timer margin since points is gone */
+#timer {
+    color: #ffcc00;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 1rem; /* Increased from 0.5rem */
+}
     </style>
 </head>
-
 <body>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-
-    <header class="fixed top-0 left-0 right-0 z-50 px-4 pt-4">
-        <div class="md:w-[85rem] mx-auto bg-[var(--privy-color-success-light)] px-6 py-3 rounded-[20px] shadow-md">
-            <nav class="mx-auto flex justify-between items-center">
-                <!-- Logo -->
-                <a href="/"
-                    class="text-[var(--privy-color-success-dark)] font-bold text-xl hover:opacity-70 transition-opacity flex items-center gap-2">
-                    <img src="./assets/enelly_logo.png" alt="Enelly Logo"
-                        class="w-8 h-8 rounded-full border-2 border-[var(--privy-color-success-dark)]">
-                    <span class="font-semibold tracking-tight text-sm">Enelly</span>
+    <header class="fixed">
+        <div class="inner">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="https://static.drip.trade/collections/enelly_pfp.png" alt="Enelly Logo">
+                    <span>Enelly</span>
                 </a>
-
-                <!-- Navigation Links -->
-                <div class="hidden md:flex items-center gap-6">
-                    <a href="/"
-                        class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                        Home</a>
-                    <a href="/roadmap"
-                        class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                        Roadmap</a>
-                    <a href="/vippass"
-                        class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                        VIP Pass</a>
-                    <a href="/stake"
-                        class="text-[var(--privy-color-success-dark)] text-sm font-medium hover:opacity-70 transition-opacity"
-                        aria-current="page">•
-                        Stake</a>
-                    <a href="/checker"
-                        class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                        Checker</a>
-                    <a href="/rewards"
-                        class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                        Rewards</a>
-                    <a href="/contact"
-                        class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                        Contact</a>
-                    <a href="/faq"
-                        class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                        FAQ</a>
+                <div class="nav-links">
+                    <a href="https://enelly.xyz/">∘ Home</a>
+                    <a href="https://enelly.xyz/roadmap">∘ Roadmap</a>
+                    <a href="https://enelly.xyz/vippass">∘ VIP Pass</a>
+                    <a href="/stake" aria-current="page">• Stake</a>
+                    <a href="https://enelly.xyz/checker">∘ Checker</a>
+                    <a href="https://enelly.xyz/rewards">∘ Rewards</a>
+                    <a href="https://enelly.xyz/contact">∘ Contact</a>
+                    <a href="https://enelly.xyz/faq">∘ FAQ</a>
                 </div>
-
-                <!-- Mobile Menu Button -->
-                <button class="md:hidden text-[var(--privy-color-success-dark)] hover:opacity-70 transition-opacity"
-                    id="mobileMenuButton">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-16 6h16" />
+                <button class="mobile-menu-btn" id="mobileMenuButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"></path>
                     </svg>
                 </button>
             </nav>
         </div>
     </header>
 
-    <!-- Add a spacer to prevent content from going under the fixed header -->
-    <div class="h-24"></div>
-
-    <!-- Mobile Menu Overlay -->
-    <div class="fixed inset-0 bg-[var(--privy-color-success-light)] z-50 hidden flex-col p-6 mobile-menu-enter"
-        id="mobileMenu">
-        <div class="flex justify-between items-center mb-8">
-            <a href="/"
-                class="text-[var(--privy-color-success-dark)] font-bold text-xl hover:opacity-70 transition-opacity flex items-center gap-2">
-                <img src="./assets/enelly_logo.png" alt="Enelly Logo"
-                    class="w-8 h-8 rounded-full border-2 border-[var(--privy-color-success-dark)]">
-                <span class="font-semibold tracking-tight text-sm">Enelly</span>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="header">
+            <a href="/" class="logo">
+                <img src="https://static.drip.trade/collections/enelly_pfp.png" alt="Enelly Logo">
+                <span>Enelly</span>
             </a>
-            <button class="text-[var(--privy-color-success-dark)] hover:opacity-70 transition-opacity"
-                id="closeMenuButton">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <button id="closeMenuButton">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
         </div>
-        <div class="flex flex-col gap-6">
-            <a href="/"
-                class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                Home</a>
-            <a href="/roadmap"
-                class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                Roadmap</a>
-            <a href="/vippass"
-                class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                VIP Pass</a>
-            <a href="/stake"
-                class="text-[var(--privy-color-success-dark)] text-sm font-medium hover:opacity-70 transition-opacity"
-                aria-current="page">•
-                Stake</a>
-            <a href="/checker"
-                class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                Checker</a>
-            <a href="/rewards"
-                class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                Rewards</a>
-            <a href="/contact"
-                class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                Contact</a>
-            <a href="/faq"
-                class="text-[var(--privy-color-success-dark)] text-sm font-light hover:opacity-70 transition-opacity">∘
-                FAQ</a>
+        <div class="links">
+            <a href="https://enelly.xyz/">∘ Home</a>
+            <a href="https://enelly.xyz/roadmap">∘ Roadmap</a>
+            <a href="https://enelly.xyz/vippass">∘ VIP Pass</a>
+            <a href="/stake" aria-current="page">• Stake</a>
+            <a href="https://enelly.xyz/checker">∘ Checker</a>
+            <a href="https://enelly.xyz/rewards">∘ Rewards</a>
+            <a href="https://enelly.xyz/contact">∘ Contact</a>
+            <a href="https://enelly.xyz/faq">∘ FAQ</a>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8 max-w-4xl">
-        <!-- Stake Enelly NFT Section -->
-        <div class="stake-card">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="flex-1">
-                    <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-4">
-                        <div class="flex-shrink-0">
-                            <img src="./assets/enelly_logo.png" alt="Enelly NFT" class="w-16 h-16 rounded-full border-4 border-white shadow-lg">
-                        </div>
-                        <h2 class="text-2xl font-bold text-gray-900">Stake Enelly NFT</h2>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="bg-white p-4 rounded-xl shadow-sm">
-                            <div class="text-[var(--privy-color-accent)] font-medium mb-1">Boost</div>
-                            <div class="text-2xl font-bold text-gray-900">2.00x</div>
-                            <div class="text-sm text-gray-500">Up to 20x</div>
-                        </div>
-                        <div class="bg-white p-4 rounded-xl shadow-sm">
-                            <div class="text-[var(--privy-color-accent)] font-medium mb-1">Locked NFT</div>
-                            <div class="text-2xl font-bold text-gray-900">0</div>
-                            <div class="text-sm text-gray-500">of total 0</div>
-                        </div>
-                        <div class="bg-white p-4 rounded-xl shadow-sm">
-                            <div class="text-[var(--privy-color-accent)] font-medium mb-1">XP Points</div>
-                            <div class="text-2xl font-bold text-gray-900">0</div>
-                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0">
-                                <div class="text-sm text-gray-500">in wallet</div>
-                                <button class="text-xs bg-gray-900 text-white px-3 py-1 rounded-lg hover:bg-gray-800 transition-colors w-fit">
-                                    Stake To Earn
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-center">
-                        <button class="submit-glow text-white px-8 py-3 rounded-xl font-semibold connectWalletBtn">
-                            Connect Wallet
-                        </button>
-                    </div>
+    <div class="spacer"></div>
+
+    <div class="container">
+    <div class="loader-overlay" id="loaderOverlay">
+    <div class="loader"></div>
+        </div>    
+        <header>
+            <h1 style="color: var(--privy-color-success-dark);">Enelly Staking Legends</h1>
+            <div class="profile" id="profile">
+                <img src="https://static.drip.trade/collections/enelly_pfp.png" id="pfp" alt="PFP">
+                <div>
+                    <span id="profileName">Unnamed</span><br>
+                    <small id="walletAddress">Not Connected</small>
+                </div>
+            </div>
+        </header>
+        <div class="container" id="mainContainer">
+            <div class="buttons">
+                <button class="submit-glow" id="connectWallet">Connect Wallet</button>
+                <button class="submit-glow hidden" id="disconnectWallet">Disconnect</button>
+                <button class="submit-glow" id="checkRewards">Refresh</button>
+                <button class="submit-glow" id="claimRewards" disabled>Claim Rewards</button>
+            </div>
+        <div class="stake-card" id="stakeCard">
+            <div class="header">
+                <img src="https://static.drip.trade/collections/enelly_pfp.png" alt="Enelly NFT">
+                <h2>Stake Enelly NFT</h2>
+            </div>
+            <div class="grid">
+                <div>
+                    <div class="label">Boost</div>
+                    <div class="value" id="boostValue">0x</div>
+                    <div class="subtext">Up to 20x</div>
+                </div>
+                <div>
+                    <div class="label">Eligible NFTs</div>
+                    <div class="value" id="eligibleNFTs">0</div>
+                    <div class="subtext">Rewardable NFTs</div>
+                </div>
+                <div>
+                    <div class="label">XP Points</div>
+                    <div class="value" id="xpPoints">0</div>
+                    <div class="subtext">Total earned</div>
                 </div>
             </div>
         </div>
-
-        <!-- Info Message -->
-        <div class="text-center mb-8">
-            <p class="text-white text-sm md:text-base font-medium max-w-2xl mx-auto">
-                Staking will open for VIP Pass and EnellyNFT holders once the mint is completed. Get ready for what's coming next!
-            </p>
+        <div id="status"></div>
+        <div id="timer"></div>
+        <div class="history-toggle" id="historyToggle">
+            <span>Reward History</span>
+            <svg class="toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 10l5 5 5-5H7z"/>
+            </svg>
         </div>
+        <div id="history" class="collapsed">Reward History:<br></div>
+        <div id="leaderboard">Leaderboard:<br></div>
+    </div>
 
-        <!-- Stake VIP Pass Section -->
-        <div class="stake-card">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="flex-1">
-                    <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-4">
-                        <div class="flex-shrink-0">
-                            <img src="./assets/vip_pass_logo.png" alt="Enelly NFT" class="w-16 h-16 rounded-full border-4 border-white shadow-lg">
-                        </div>
-                        <h2 class="text-2xl font-bold text-gray-900">Stake VIP Pass</h2>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="bg-white p-4 rounded-xl shadow-sm">
-                            <div class="text-[var(--privy-color-accent)] font-medium mb-1">Boost</div>
-                            <div class="text-2xl font-bold text-gray-900">1.50x</div>
-                            <div class="text-sm text-gray-500">Up to 10x</div>
-                        </div>
-                        <div class="bg-white p-4 rounded-xl shadow-sm">
-                            <div class="text-[var(--privy-color-accent)] font-medium mb-1">Locked NFT</div>
-                            <div class="text-2xl font-bold text-gray-900">0</div>
-                            <div class="text-sm text-gray-500">of total 0</div>
-                        </div>
-                        <div class="bg-white p-4 rounded-xl shadow-sm">
-                            <div class="text-[var(--privy-color-accent)] font-medium mb-1">XP Points</div>
-                            <div class="text-2xl font-bold text-gray-900">0</div>
-                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0">
-                                <div class="text-sm text-gray-500">in wallet</div>
-                                <button class="text-xs bg-gray-900 text-white px-3 py-1 rounded-lg hover:bg-gray-800 transition-colors w-fit">
-                                    Stake To Earn
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-center">
-                        <button class="submit-glow text-white px-8 py-3 rounded-xl font-semibold connectWalletBtn">
-                            Connect Wallet
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <h2>Set Your Profile</h2>
+            <input type="text" id="modalName" placeholder="Profile Name" value="Unnamed">
+            <div class="nft-grid" id="nftGrid"></div>
+            <button class="submit-glow" id="saveProfile">Save</button>
         </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="py-8 mt-12 text-[var(--privy-color-success-light)]">
-        <div class="container mx-auto text-center">
-            <div class="flex justify-center gap-6 mb-6">
-                <!-- X (Twitter) -->
-                <a href="https://x.com/EnellyNFT" target="_blank" rel="noopener noreferrer">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                </a>
-
-                <!-- Discord -->
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z" />
-                    </svg>
-                </a>
-            </div>
-            <p class="text-sm opacity-80">&copy; 2025 Enelly NFT. All rights reserved.</p>
+    </div>
+    </div>
+    <footer>
+        <div class="socials">
+            <a href="https://x.com/EnellyNFT" target="_blank" rel="noopener noreferrer">
+                <img src="twitter.png" alt="Twitter" style="width:25px; height:25px;">
+            </a>
+            <a href="https://discord.gg/EnellyNFT" target="_blank" rel="noopener noreferrer">
+                <img src="discord.png" alt="Discord" style="width:25px; height:25px;">
+            </a>
+            
         </div>
+        <p class="text-sm opacity-80">© 2025 Enelly NFT. All rights reserved.</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script>
-        // Mobile menu functionality
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const closeMenuButton = document.getElementById('closeMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        if (mobileMenuButton && mobileMenu) {
+        document.addEventListener("DOMContentLoaded", () => {
+            const provider = new ethers.providers.JsonRpcProvider("https://rpc.hyperliquid.xyz/evm");
+    
+            const nftCollections = {
+                "0x115b194e5Aa136ce1bFcA6baE021EdbF892B0a51": { name: "Enelly", symbol: "ENL", icon: "https://static.drip.trade/collections/enelly_pfp.png", tokens: [], dripLink: "https://drip.trade/collections/Enelly" },
+                "0xED4b30CC6e3345Cc3Ea1065F526235A77b888037": { name: "Enelly VIP Pass", symbol: "ENE", icon: "https://static.drip.trade/collections/enelly-vip-pass_pfp.png", tokens: [], dripLink: "https://drip.trade/collections/enelly-vip-pass" },
+                "0x64D98ef4cEfbA64f8353F0cFd88E8370B3486d4b": { name: "Primitive", symbol: "PRMTV", icon: "https://static.drip.trade/collections/primitives_pfp.png", tokens: [], dripLink: "https://drip.trade/collections/Primitive" },
+                "0x63eb9d77D083cA10C304E28d5191321977fd0Bfb": { name: "Wealthy Hypio Babies", symbol: "Hypio", icon: "https://static.drip.trade/collections/hypio_pfp.png", tokens: [], dripLink: "https://drip.trade/collections/Wealthy-Hypio-Babies" },
+                "0x9Be117D27f8037F6f549903C899e96E5755e96db": { name: "Hypers", symbol: "HYPERS", icon: "https://static.drip.trade/collections/hypers_pfp.png", tokens: [], dripLink: "https://drip.trade/collections/Hypers" },
+                "0xCC3D60fF11a268606C6a57bD6Db74b4208f1D30c": { name: "TinyHyperCats", symbol: "THC", icon: "https://static.drip.trade/collections/tiny-hyper-cat_pfp.jpg", tokens: [], dripLink: "https://drip.trade/collections/TinyHyperCats" },
+                "0xeA8Cc2a7da4E91c559514B8192eF1cfe1497AC74": { name: "MechaCats", symbol: "MC", icon: "https://static.drip.trade/collections/mechacats_pfp.png", tokens: [], dripLink: "https://drip.trade/collections/MechaCats" },
+                "0xDD59aC38cb15F688c18909bA1Ca708A76cC351F5": { name: "Gems", symbol: "GEM", icon: "https://static.drip.trade/collections/gems_pfp.png", tokens: [], dripLink: "https://drip.trade/collections/Gems" },
+                "0x44b598C9aCD2AeCC3FC6B285F72e434C93Ab4077": { name: "Hyparrots", symbol: "HYPR", icon: "https://static.drip.trade/collections/hyparrots_pfp.png", tokens: [], dripLink: "https://drip.trade/collections/Hyparrots" }
+            };
+    
+            const nftAbi = [
+                "function balanceOf(address owner) view returns (uint256)",
+                "function name() view returns (string)",
+                "function symbol() view returns (string)",
+                "function tokenURI(uint256 tokenId) view returns (string)",
+                "function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)"
+            ];
+            let userAddress = null;
+            let totalPoints = 0;
+            let lastClaim = null;
+            let lastRefresh = null;
+            let profileName = "Unnamed";
+            let profilePic = "https://static.drip.trade/collections/enelly_pfp.png";
+            let rewardHistory = [];
+            let leaderboard = {};
+            let ownedNfts = [];
+            let eligibleNFTs = 0;
+            let isLoading = true;
+    
+            // Mobile menu
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const closeMenuButton = document.getElementById('closeMenuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
             mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.style.display = 'flex';
+                mobileMenu.classList.add('active');
                 document.body.style.overflow = 'hidden';
-                requestAnimationFrame(() => {
-                    mobileMenu.classList.remove('mobile-menu-enter');
-                    mobileMenu.classList.add('mobile-menu-enter-active');
-                });
             });
-        }
-
-        if (closeMenuButton && mobileMenu) {
             closeMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.remove('mobile-menu-enter-active');
-                mobileMenu.classList.add('mobile-menu-exit');
-                requestAnimationFrame(() => {
-                    mobileMenu.classList.add('mobile-menu-exit-active');
-                });
-
-                setTimeout(() => {
-                    mobileMenu.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                    mobileMenu.classList.remove('mobile-menu-exit', 'mobile-menu-exit-active');
-                    mobileMenu.classList.add('mobile-menu-enter');
-                }, 300);
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
             });
-        }
-        const buttons = document.querySelectorAll('.connectWalletBtn');
-        let timeoutId;
-
-        if (buttons) {
-            buttons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    btn.innerText = 'Coming Soon';
-                    // Hide the message after 2 seconds
-                    clearTimeout(timeoutId);
-                    timeoutId = setTimeout(() => {
-                        btn.innerText = 'Connect Wallet';
-                    }, 2000);
-                });
+    
+            // History toggle
+            const historyToggle = document.getElementById('historyToggle');
+            const historyDiv = document.getElementById('history');
+            historyToggle.addEventListener('click', () => {
+                historyToggle.classList.toggle('active');
+                historyDiv.classList.toggle('collapsed');
             });
+    
+            async function fetchCollectionData() {
+    console.log("Fetching collection data for:", userAddress);
+    eligibleNFTs = 0;
+    let statusHtml = "";
+    for (let [address, data] of Object.entries(nftCollections)) {
+        const contract = new ethers.Contract(address, nftAbi, provider);
+        try {
+            if (!data.name) data.name = await contract.name();
+            if (!data.symbol) data.symbol = await contract.symbol();
+            const balance = await contract.balanceOf(userAddress);
+            console.log(`${data.name} (${address}): ${balance.toNumber()} NFTs`);
+            statusHtml += `
+                <div class="nft-item">
+                    <img src="${data.icon}" alt="${data.symbol}">
+                    <span>${data.name} (${data.symbol}): ${balance.toNumber()} NFT(s)</span>
+                </div>
+            `;
+            data.tokens = [];
+            eligibleNFTs += balance.toNumber();
+                        if (address === "0x44b598C9aCD2AeCC3FC6B285F72e434C93Ab4077" && balance.toNumber() > 0) {
+                            try {
+                                const tokenId = 466;
+                                const tokenUri = await contract.tokenURI(tokenId);
+                                console.log(`Fetching tokenURI for ${data.name} #${tokenId}: ${tokenUri}`);
+                                const response = await fetch(tokenUri);
+                                const metadata = await response.json();
+                                const image = metadata.image || "https://via.placeholder.com/30";
+                                data.tokens.push({ id: tokenId.toString(), image });
+                                console.log(`Added token #${tokenId} with image: ${image}`);
+                            } catch (e) {
+                                console.error(`Error fetching token #466 for ${data.name}:`, e.message);
+                                try {
+                                    const tokenId = await contract.tokenOfOwnerByIndex(userAddress, 0);
+                                    const tokenUri = await contract.tokenURI(tokenId);
+                                    console.log(`Fallback tokenURI for ${data.name} #${tokenId}: ${tokenUri}`);
+                                    const response = await fetch(tokenUri);
+                                    const metadata = await response.json();
+                                    const image = metadata.image || "https://via.placeholder.com/30";
+                                    data.tokens.push({ id: tokenId.toString(), image });
+                                    console.log(`Added fallback token #${tokenId} with image: ${image}`);
+                                } catch (e2) {
+                                    console.error(`Fallback fetch failed for ${data.name}:`, e2.message);
+                                }
+                            }
+                        } else {
+                            for (let i = 0; i < balance.toNumber(); i++) {
+                                try {
+                                    const tokenId = await contract.tokenOfOwnerByIndex(userAddress, i);
+                                    const tokenUri = await contract.tokenURI(tokenId);
+                                    console.log(`Fetching tokenURI for ${data.name} #${tokenId}: ${tokenUri}`);
+                                    const response = await fetch(tokenUri);
+                                    const metadata = await response.json();
+                                    const image = metadata.image || "https://via.placeholder.com/30";
+                                    data.tokens.push({ id: tokenId.toString(), image });
+                                    console.log(`Added token #${tokenId} with image: ${image}`);
+                                } catch (e) {
+                                    console.error(`Error fetching token ${i} for ${data.name}:`, e.message);
+                                }
+                            }
+                        }
+                    } catch (error) {
+            console.error(`Error fetching data for ${address}:`, error.message);
+            statusHtml += `Error checking ${data.name}: ${error.message}<br>`;
+            if (!data.name) data.name = "Unknown";
+            if (!data.symbol) data.symbol = "UNK";
         }
+    }
+    document.getElementById("status").innerHTML = statusHtml || "No eligible NFTs found.";
+}
+    
+            async function detectWallet() {
+                return new Promise((resolve) => {
+                    if (typeof window.ethereum !== "undefined") {
+                        console.log("MetaMask detected!");
+                        resolve(window.ethereum.isMetaMask);
+                    } else {
+                        document.getElementById("status").innerText = "MetaMask not detected!";
+                        console.log("MetaMask not found.");
+                        resolve(false);
+                    }
+                });
+            }
+    
+            async function autoConnectWallet() {
+                if (!(await detectWallet())) {
+                    hideLoader();
+                    return;
+                }
+                try {
+                    showLoader();
+                    document.getElementById("checkRewards").disabled = true;
+                    document.getElementById("claimRewards").disabled = true;
+                    const accounts = await window.ethereum.request({ method: "eth_accounts" });
+                    if (accounts.length > 0) {
+                        userAddress = accounts[0];
+                        console.log("Auto-connected wallet:", userAddress);
+                        document.getElementById("walletAddress").innerHTML = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)} <span class="nft-count">(${eligibleNFTs} NFTs)</span>`;
+                        document.getElementById("status").innerText = `Connected: ${userAddress}`;
+                        document.getElementById("connectWallet").innerText = "Connected";
+                        document.getElementById("connectWallet").disabled = true;
+                        document.getElementById("connectWallet").classList.add("hidden");
+                        document.getElementById("disconnectWallet").classList.remove("hidden");
+                        await switchToHyperEVM();
+                        await fetchCollectionData();
+                        loadUserData();
+                        await updateStakeCard();
+                        updateLeaderboard();
+                        checkButtonStates();
+                    }
+                } catch (error) {
+                    console.error("Auto-connect error:", error);
+                    document.getElementById("status").innerText = `Auto-connect failed: ${error.message}`;
+                } finally {
+                    isLoading = false;
+                    hideLoader();
+                }
+            }
+    
+            document.getElementById("connectWallet").addEventListener("click", async () => {
+                if (!(await detectWallet())) return;
+                try {
+                    showLoader();
+                    console.log("Requesting wallet connection...");
+                    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+                    userAddress = accounts[0];
+                    console.log("Connected wallet:", userAddress);
+                    document.getElementById("walletAddress").innerHTML = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)} <span class="nft-count">(${eligibleNFTs} NFTs)</span>`;
+                    document.getElementById("status").innerText = `Connected: ${userAddress}`;
+                    document.getElementById("connectWallet").innerText = "Connected";
+                    document.getElementById("connectWallet").disabled = true;
+                    document.getElementById("checkRewards").disabled = false;
+                    document.getElementById("claimRewards").disabled = false;
+                    await switchToHyperEVM();
+                    await fetchCollectionData();
+                    loadUserData();
+                    await updateStakeCard();
+                    showProfileModal();
+                    updateLeaderboard();
+                } catch (error) {
+                    document.getElementById("status").innerText = `Connection failed: ${error.message}`;
+                    console.error("Connect error:", error);
+                } finally {
+                    hideLoader();
+                }
+            });
+    
+            document.getElementById("profile").addEventListener("click", async () => {
+                await fetchCollectionData();
+                showProfileModal();
+            });
+    
+            function showProfileModal() {
+                const modal = document.getElementById("profileModal");
+                const nameInput = document.getElementById("modalName");
+                const nftGrid = document.getElementById("nftGrid");
+                nameInput.value = profileName;
+                nftGrid.innerHTML = "";
+                ownedNfts = [];
+                console.log("Populating modal with owned NFTs...");
+                for (let [address, { name, tokens }] of Object.entries(nftCollections)) {
+                    tokens.forEach(token => {
+                        ownedNfts.push({ address, name, ...token });
+                        const div = document.createElement("div");
+                        div.className = "nft-option";
+                        div.innerHTML = `<img src="${token.image}" alt="${name} #${token.id}">`;
+                        div.onclick = () => {
+                            nftGrid.querySelectorAll(".nft-option").forEach(el => el.classList.remove("selected"));
+                            div.classList.add("selected");
+                            profilePic = token.image;
+                        };
+                        if (token.image === profilePic) div.classList.add("selected");
+                        nftGrid.appendChild(div);
+                        console.log(`Added to grid: ${name} #${token.id}`);
+                    });
+                }
+                if (ownedNfts.length === 0) {
+                    nftGrid.innerHTML = `No NFTs found. Debug: Check console for fetch errors or ensure you own NFTs in listed collections.`;
+                }
+                modal.classList.add("active");
+                document.getElementById("saveProfile").onclick = () => {
+                    profileName = nameInput.value || "Unnamed";
+                    document.getElementById("profileName").innerText = profileName;
+                    document.getElementById("pfp").src = profilePic;
+                    saveUserData();
+                    updateLeaderboard();
+                    updateStakeCard();
+                    modal.classList.remove("active");
+                };
+            }
+    
+            async function switchToHyperEVM() {
+                try {
+                    console.log("Switching to HyperEVM...");
+                    await window.ethereum.request({
+                        method: "wallet_switchEthereumChain",
+                        params: [{ chainId: "0x3e7" }]
+                    });
+                } catch (switchError) {
+                    if (switchError.code === 4902) {
+                        console.log("Adding HyperEVM chain...");
+                        await window.ethereum.request({
+                            method: "wallet_addEthereumChain",
+                            params: [{
+                                chainId: "0x3e7",
+                                chainName: "Hyperliquid EVM",
+                                rpcUrls: ["https://rpc.hyperliquid.xyz/evm"],
+                                nativeCurrency: { name: "HYPE", symbol: "HYPE", decimals: 18 },
+                                blockExplorerUrls: ["https://hyperevm-explorer.vercel.app/"]
+                            }]
+                        });
+                    } else {
+                        throw switchError;
+                    }
+                }
+            }
+    
+            async function checkHoldings() {
+                if (!userAddress || isLoading) return;
+                const now = Date.now();
+                const oneDay = 24 * 60 * 60 * 1000;
+                if (lastRefresh && (now - lastRefresh < oneDay)) {
+                    updateTimer();
+                    return;
+                }
+                document.getElementById("status").innerHTML = "Please wait... <span class='spinner'></span>";
+                let statusHtml = "";
+                for (let [address, { name, symbol, icon }] of Object.entries(nftCollections)) {
+                    const contract = new ethers.Contract(address, nftAbi, provider);
+                    try {
+                        const balance = await contract.balanceOf(userAddress);
+                        statusHtml += `
+                            <div class="nft-item">
+                                <img src="${icon}" alt="${symbol}">
+                                <span>${name} (${symbol}): ${balance.toNumber()} NFT(s)</span>
+                            </div>
+                        `;
+                    } catch (error) {
+                        statusHtml += `Error checking ${name}: ${error.message}<br>`;
+                    }
+                }
+                document.getElementById("status").innerHTML = statusHtml;
+                await fetchCollectionData();
+                await updateStakeCard();
+                lastRefresh = now;
+                saveUserData();
+                document.getElementById("checkRewards").disabled = true;
+                startTimer();
+            }
+    
+            document.getElementById("checkRewards").addEventListener("click", async () => {
+                await checkHoldings();
+            });
+            document.getElementById("disconnectWallet").addEventListener("click", disconnectWallet);
+            document.getElementById("claimRewards").addEventListener("click", async () => {
+    if (!userAddress || isLoading) return;
+    const now = Date.now();
+    const oneDay = 24 * 60 * 60 * 1000;
+    if (lastClaim && (now - lastClaim < oneDay)) {
+        updateTimer();
+        return;
+    }
+    let claimText = "Claiming rewards...\n";
+    let pointsEarned = 0;
+    let historyEntry = { time: now, rewards: {} };
+    let enellyBalance = 0;
+    for (let [address, { name, symbol }] of Object.entries(nftCollections)) {
+        const contract = new ethers.Contract(address, nftAbi, provider);
+        try {
+            const balance = await contract.balanceOf(userAddress);
+            if (balance > 0) {
+                let xpPerNft = 5; // Default 5 XP
+                if (address === "0x115b194e5Aa136ce1bFcA6baE021EdbF892B0a51") {
+                    xpPerNft = 20; // Enelly OG - 20 XP
+                } // Add "Enelly VIP Pass" address here if different, e.g.:
+                // else if (address === "VIP_PASS_ADDRESS") xpPerNft = 10;
+                const xp = xpPerNft * balance.toNumber();
+                pointsEarned += xp;
+                claimText += `${name} (${symbol}): ${balance} NFT(s) = +${xp} XP\n`;
+                historyEntry.rewards[name] = { count: balance.toNumber(), xp };
+                if (address === "0x115b194e5Aa136ce1bFcA6baE021EdbF892B0a51") {
+                    enellyBalance = balance.toNumber();
+                }
+            }
+        } catch (error) {
+            claimText += `Error checking ${name}: ${error.message}\n`;
+        }
+    }
+    let multiplier = 0;
+    if (enellyBalance >= 50) multiplier = 20;
+    else if (enellyBalance >= 40) multiplier = 15;
+    else if (enellyBalance >= 30) multiplier = 10;
+    else if (enellyBalance >= 20) multiplier = 5;
+    else if (enellyBalance >= 10) multiplier = 3;
+    else if (enellyBalance >= 5) multiplier = 2;
+    else if (enellyBalance > 0) multiplier = 1;
+    if (multiplier > 0) {
+        pointsEarned *= multiplier;
+        claimText += `Enelly Boost: ${multiplier}x applied! Total: ${pointsEarned} XP\n`;
+    } else {
+        claimText += `No Enelly NFTs detected - Boost: 0x\n`;
+    }
+    if (pointsEarned > 0) {
+        totalPoints += pointsEarned;
+        lastClaim = now;
+        lastRefresh = now;
+        rewardHistory.push(historyEntry);
+        document.getElementById("status").innerText = claimText;
+        saveUserData();
+        updateHistory();
+        updateLeaderboard();
+        await updateStakeCard();
+        document.getElementById("claimRewards").disabled = true;
+        document.getElementById("checkRewards").disabled = true;
+        startTimer();
+    } else {
+        document.getElementById("status").innerText = "No rewards to claim!";
+    }
+});
+    
+            function startTimer() {
+                const oneDay = 24 * 60 * 60 * 1000;
+                const interval = setInterval(() => {
+                    const now = Date.now();
+                    const timeLeft = oneDay - (now - (lastClaim || lastRefresh));
+                    if (timeLeft <= 0) {
+                        clearInterval(interval);
+                        document.getElementById("timer").innerText = "Actions available now!";
+                        document.getElementById("claimRewards").disabled = false;
+                        document.getElementById("checkRewards").disabled = false;
+                    } else {
+                        const hours = Math.floor(timeLeft / (60 * 60 * 1000));
+                        const minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (60 * 1000));
+                        document.getElementById("timer").innerText = `Next action in ${hours}h ${minutes}m`;
+                    }
+                }, 1000);
+            }
+    
+            function updateTimer() {
+                const now = Date.now();
+                const oneDay = 24 * 60 * 60 * 1000;
+                const timeLeft = oneDay - (now - (lastClaim || lastRefresh));
+                const hours = Math.floor(timeLeft / (60 * 60 * 1000));
+                const minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (60 * 1000));
+                document.getElementById("timer").innerText = `Next action in ${hours}h ${minutes}m`;
+                document.getElementById("status").innerText = "Chill until the timer’s up!";
+            }
+    
+            function updateHistory() {
+                let historyText = "";
+                rewardHistory.forEach(entry => {
+                    const date = new Date(entry.time).toLocaleString();
+                    for (let [name, { count, xp }] of Object.entries(entry.rewards)) {
+                        const collection = Object.values(nftCollections).find(c => c.name === name);
+                        historyText += `
+                            <div>
+                                ${date}: 
+                                <img src="${collection.icon}" alt="${name}">
+                                <a href="${collection.dripLink}" target="_blank">${name}</a>: ${count} NFT(s) ---> +${xp} XP
+                            </div>
+                        `;
+                    }
+                });
+                document.getElementById("history").innerHTML = historyText || "No rewards claimed yet.";
+            }
+    
+            function updateLeaderboard() {
+                leaderboard[userAddress] = { name: profileName, points: totalPoints, pfp: profilePic, nfts: eligibleNFTs };
+                let leaderboardText = "Leaderboard:<br>";
+                Object.entries(leaderboard)
+                    .sort(([, a], [, b]) => b.points - a.points)
+                    .slice(0, 5)
+                    .forEach(([addr, { name, points, pfp, nfts }], i) => {
+                        leaderboardText += `
+                            <div class="leader-item">
+                                <span>
+                                    <img src="${pfp}" alt="${name}">
+                                    ${i + 1}. ${name}
+                                    <span class="nfts">(${nfts} NFTs)</span>
+                                </span>
+                                <span class="points">${points} XP</span>
+                            </div>
+                        `;
+                    });
+                document.getElementById("leaderboard").innerHTML = leaderboardText;
+                localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+            }
+    
+            async function updateStakeCard() {
+                const stakeCard = document.getElementById("stakeCard");
+                const boostValue = document.getElementById("boostValue");
+                const eligibleNFTsElement = document.getElementById("eligibleNFTs");
+                const xpPoints = document.getElementById("xpPoints");
+                let enellyBalance = 0;
+                const enellyAddress = "0x115b194e5Aa136ce1bFcA6baE021EdbF892B0a51";
+                try {
+                    const contract = new ethers.Contract(enellyAddress, nftAbi, provider);
+                    enellyBalance = (await contract.balanceOf(userAddress)).toNumber();
+                    console.log(`Enelly balance for ${userAddress}: ${enellyBalance}`);
+                } catch (error) {
+                    console.error("Error fetching Enelly balance:", error.message);
+                }
+                let multiplier = 0;
+                if (enellyBalance >= 50) multiplier = 20;
+                else if (enellyBalance >= 40) multiplier = 15;
+                else if (enellyBalance >= 30) multiplier = 10;
+                else if (enellyBalance >= 20) multiplier = 5;
+                else if (enellyBalance >= 10) multiplier = 3;
+                else if (enellyBalance >= 5) multiplier = 2;
+                else if (enellyBalance > 0) multiplier = 1;
+                boostValue.innerText = `${multiplier}x`;
+                eligibleNFTsElement.innerText = eligibleNFTs;
+                xpPoints.innerText = totalPoints;
+                stakeCard.classList.add("active");
+                document.getElementById("walletAddress").innerHTML = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)} <span class="nft-count">(${eligibleNFTs} NFTs)</span>`;
+            }
+    
+            function saveUserData() {
+                if (userAddress) {
+                    localStorage.setItem(`${userAddress}_points`, totalPoints);
+                    localStorage.setItem(`${userAddress}_lastClaim`, lastClaim);
+                    localStorage.setItem(`${userAddress}_lastRefresh`, lastRefresh);
+                    localStorage.setItem(`${userAddress}_history`, JSON.stringify(rewardHistory));
+                    localStorage.setItem(`${userAddress}_name`, profileName);
+                    localStorage.setItem(`${userAddress}_pfp`, profilePic);
+                }
+            }
+    
+            function loadUserData() {
+    if (userAddress) {
+        totalPoints = parseInt(localStorage.getItem(`${userAddress}_points`)) || 0;
+        lastClaim = parseInt(localStorage.getItem(`${userAddress}_lastClaim`)) || null;
+        lastRefresh = parseInt(localStorage.getItem(`${userAddress}_lastRefresh`)) || null;
+        rewardHistory = JSON.parse(localStorage.getItem(`${userAddress}_history`)) || [];
+        profileName = localStorage.getItem(`${userAddress}_name`) || "Unnamed";
+        profilePic = localStorage.getItem(`${userAddress}_pfp`) || "https://static.drip.trade/collections/enelly_pfp.png";
+        leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
+        document.getElementById("profileName").innerText = profileName;
+        document.getElementById("pfp").src = profilePic;
+        document.getElementById("walletAddress").innerHTML = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)} <span class="nft-count">(${eligibleNFTs} NFTs)</span>`;
+        fetchCollectionData(); // Add this to populate #status on load
+        updateHistory();
+        updateLeaderboard();
+        updateStakeCard();
+        if (lastClaim || lastRefresh) startTimer();
+    }
+}
+            function checkButtonStates() {
+                const now = Date.now();
+                const oneDay = 24 * 60 * 60 * 1000;
+                if (lastClaim && (now - lastClaim < oneDay)) {
+                    document.getElementById("claimRewards").disabled = true;
+                }
+                if (lastRefresh && (now - lastRefresh < oneDay)) {
+                    document.getElementById("checkRewards").disabled = true;
+                }
+                if (lastClaim || lastRefresh) startTimer();
+            }
+
+            function disconnectWallet() {
+    userAddress = null;
+    totalPoints = 0;
+    lastClaim = null;
+    lastRefresh = null;
+    rewardHistory = [];
+    eligibleNFTs = 0;
+    document.getElementById("walletAddress").innerHTML = "Not Connected";
+    document.getElementById("status").innerText = "";
+    document.getElementById("connectWallet").innerText = "Connected";
+    document.getElementById("connectWallet").disabled = true;
+    document.getElementById("connectWallet").classList.add("hidden");
+    document.getElementById("disconnectWallet").classList.remove("hidden");
+    document.getElementById("checkRewards").disabled = true;
+    document.getElementById("claimRewards").disabled = true;
+    document.getElementById("stakeCard").classList.remove("active");
+    document.getElementById("timer").innerText = "";
+    updateHistory();
+    updateLeaderboard();
+    saveUserData();
+}
+            function showLoader() {
+                document.getElementById("loaderOverlay").classList.remove("hidden");
+                document.getElementById("mainContainer").classList.add("loading");
+            }
+    
+            function hideLoader() {
+                const loader = document.getElementById("loaderOverlay");
+                loader.classList.add("hidden");
+                document.getElementById("mainContainer").classList.remove("loading");
+            }
+    
+            // Auto-connect on page load
+            autoConnectWallet();
+        });
     </script>
 </body>
-
-</html> 
+</html>
